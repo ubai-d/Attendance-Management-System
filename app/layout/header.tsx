@@ -10,7 +10,7 @@ function Header() {
 
   return (
     <>
-      <div className="bg-main w-full fixed h-[80px] text-white md:flex flex-row hidden justify-between px-20 items-center">
+      <div className="bg-main w-full h-[80px] text-white md:flex flex-row hidden justify-between px-20 items-center">
         <div className="">
           <Image src={logo} alt="logo" className="w-14 h-14 rounded-full" />
         </div>
@@ -26,7 +26,7 @@ function Header() {
             </li>
             <li className="cursor-pointer mx-5">
               <Link href={"/"} />
-              Contact Us
+             FAQ
             </li>
           </ul>
         </div>
@@ -34,14 +34,14 @@ function Header() {
           <div className="px-5 py-2">
             <button>Login</button>
           </div>
-          <div className="bg-sub rounded-full px-5 py-2">
-            <Link href={"/signin"}>
+          <div className="text-main bg-sub rounded-full px-5 py-2">
+            <Link href={"/Signup"}>
               <button>Register</button>
             </Link>
           </div>
         </div>
       </div>
-      <div className="bg-main w-full fixed h-[80px] text-white md:hidden flex flex-row justify-between items-center px-10">
+      <div className="bg-main w-full h-[80px] text-white md:hidden flex flex-row justify-between items-center px-10">
         <div className="">
           <Image src={logo} alt="logo" className="w-14 h-14 rounded-full" />
         </div>
@@ -70,7 +70,17 @@ function Header() {
       {open ? (
         <div className="bg-main h-screen w-full md:hidden flex flex-col">
           <div>
-            <ul className="flex flex-col text-white my-60 mx-5 font-semibold text-xl">
+            <ul className="flex flex-col text-white my-40 mx-5 text-xl">
+            <div className="flex mx-auto my-10">
+          <div className="px-5 py-2 text-white">
+            <button>Login</button>
+          </div>
+          <div className="text-main bg-sub rounded-full px-5 py-2">
+            <Link href={"/Signup"}>
+              <button>Register</button>
+            </Link>
+          </div>
+        </div>
             <Link
                 href={"/"}
                 onClick={() => {
@@ -96,10 +106,12 @@ function Header() {
                 }}
                 className="cursor-pointer mx-5 py-5 border-b border-sub"
               >
-                Contact Us
+               FAQ
               </Link>
             </ul>
+          
           </div>
+          
         </div>
       ) : (
         ""
