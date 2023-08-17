@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 
-import { useFormik } from "formik";
+import { Field, useFormik } from "formik";
 import { signUpSchema } from "@/lib/schemas/form";
 
 const SignUp = () => {
@@ -10,6 +10,7 @@ const SignUp = () => {
     email: "",
     password: "",
     confirm_password: "",
+    picked:"",
   };
 
   const { values, handleBlur, handleChange, handleSubmit, errors, touched } =
@@ -19,15 +20,22 @@ const SignUp = () => {
       validateOnChange: true,
       validateOnBlur: false,
       //// By disabling validation onChange and onBlur formik will validate on submit.
-      onSubmit: (values, action) => {
+      onSubmit:async (values, action) => {
         console.log("🚀 ~ file: App.jsx ~ line 17 ~ App ~ values", values);
+        const res = await fetch("/api/v1/signup",{
+          method: "POST",
+          body: JSON.stringify({
+            name:values.name,
+            email:values.email,
+            password:values.password
+          })
+        })
         //// to get rid of all the values after submitting the form
         action.resetForm();
       },
     });
-
-  console.log(errors);
-
+    
+    
   return (
     <>
       <div className="bg-main h-screen flex items-center justify-center">
@@ -105,6 +113,15 @@ const SignUp = () => {
               <p className="text-red-400 px-3">Please Confirm Your Password</p>
             ) : null}
           </div>
+          <div>
+          </div>
+          <div>
+          
+            <input type="checkbox" placeholder="user"/>
+          
+                       <input type="checkbox" placeholder="Teacher"/>
+            </div>  
+           
           <div className="flex justify-center items-center mt-5">
             <button className="bg-sub px-10 py-3 rounded-xl" type="submit">
               Registration
