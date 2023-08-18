@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 
 import { Field, useFormik } from "formik";
 import { signUpSchema } from "@/lib/schemas/form";
@@ -10,9 +10,9 @@ const SignUp = () => {
     email: "",
     password: "",
     confirm_password: "",
-    picked:"",
+    occupation:""
   };
-
+  const [checked, setchecked] = useState(true);
   const { values, handleBlur, handleChange, handleSubmit, errors, touched } =
     useFormik({
       initialValues,
@@ -20,30 +20,32 @@ const SignUp = () => {
       validateOnChange: true,
       validateOnBlur: false,
       //// By disabling validation onChange and onBlur formik will validate on submit.
-      onSubmit:async (values, action) => {
+      onSubmit: async (values, action) => {
         console.log("🚀 ~ file: App.jsx ~ line 17 ~ App ~ values", values);
-        const res = await fetch("/api/v1/signup",{
+        console.log("🚀 ~ file: App.jsx ~ line 17 ~ App ~ values", values.occupation);
+
+        const res = await fetch("/api/v1/signup", {
           method: "POST",
           body: JSON.stringify({
-            name:values.name,
-            email:values.email,
-            password:values.password
-          })
-        })
+            name: values.name,
+            email: values.email,
+            password: values.password,
+            // occupation : values.
+          }),
+        });
         //// to get rid of all the values after submitting the form
         action.resetForm();
       },
     });
-    
-    
+
   return (
     <>
-      <div className="bg-main h-screen flex items-center justify-center">
+      <div className="bg-main h-screen w-full flex items-center justify-center">
         <form
           onSubmit={handleSubmit}
-          className="bg-white w-[60%] h-[85%] rounded-xl"
+          className="bg-white w-[60%] h-[90%] rounded-xl"
         >
-          <div className="text-center my-7">
+          <div className="text-center my-5">
             <h1 className="text-3xl font-semibold text-sub">
               Welcome To U Attendance System
             </h1>
@@ -97,7 +99,7 @@ const SignUp = () => {
               <p className="text-red-400 px-3">{errors.password}</p>
             ) : null}
           </div>
-          <div className="flex flex-col mx-20 h-20">
+          <div className="flex flex-col mx-20 h-16">
             <input
               className="bg-gray-200 px-10 py-3 rounded-full w-[41rem] placeholder:text-black placeholder:text-start text-start "
               type="password"
@@ -113,16 +115,57 @@ const SignUp = () => {
               <p className="text-red-400 px-3">Please Confirm Your Password</p>
             ) : null}
           </div>
-          <div>
+          <div className="flex items-center justify-between mx-60 mt-3">
+            <label htmlFor="" className="">
+              <input
+              checked={!checked}
+              autoComplete="off"
+                type="radio"
+                id="teacher"
+                name="teacher"
+                className="cursor-pointer text-sub"
+                onClick={() => setchecked(!checked)}
+                value={values.occupation}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+              <span> Teacher </span>
+            </label>
+            <label className="text-lg text-sub">
+              <input
+              checked={checked}
+              autoComplete="off"
+                  type="radio"
+                  id="student"
+                  name="student"
+                  className="w-4 h-4 cursor-pointer text-sub"
+                  onClick={() => setchecked(!checked)}
+                  value={values.occupation}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+              />
+              <span className="mx-2">Student</span>
+             
+            </label>
+            {/* <div role="group" aria-labelledby="checkbox-group">
+            <label>
+              <Field type="checkbox" name="checked" value="One" />
+              One
+            </label>
+            <label>
+              <Field type="checkbox" name="checked" value="Two" />
+              Two
+            </label>
+            <label>
+              <Field type="checkbox" name="checked" value="Three" />
+              Three
+            </label> */}
+          {/* </div> */}
+
+
           </div>
-          <div>
-          
-            <input type="checkbox" placeholder="user"/>
-          
-                       <input type="checkbox" placeholder="Teacher"/>
-            </div>  
-           
-          <div className="flex justify-center items-center mt-5">
+          <p className="text-red-400 px-3 text-center">Please Confirm Your Password</p>
+          <div className="flex justify-center items-center mt-2">
             <button className="bg-sub px-10 py-3 rounded-xl" type="submit">
               Registration
             </button>
