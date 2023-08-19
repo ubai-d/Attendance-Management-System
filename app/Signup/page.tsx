@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import { useFormik } from "formik";
 import { signUpSchema } from "@/lib/schemas/form";
-
+import Loader from "@/components/loader";
 const SignUp = () => {
   const initialValues = {
     name: "",
@@ -15,6 +15,7 @@ const SignUp = () => {
   const [checked, setchecked] = useState(true);
   const [role, setrole] = useState("Student");
   const [error, seterror] = useState("User With This Email Already exist");
+  const [loading , setloading] = useState(false)
 
   const { values, handleBlur, handleChange, handleSubmit, errors, touched } =
     useFormik({
@@ -24,7 +25,8 @@ const SignUp = () => {
       validateOnBlur: false,
 
       onSubmit: async (values, action) => {
-        try {
+        setloading(true)
+        try { 
           const response = await fetch("/api/v1/signup", {
             method: "POST",
             headers: {
@@ -42,11 +44,13 @@ const SignUp = () => {
             throw new Error(data.message);
           }
           action.resetForm();
+          setloading(false)
         } catch (err: any) {
         toast.error(error,{
         duration: 4000,
         })
       }
+      setloading(false)
       },
     });
 
@@ -169,7 +173,7 @@ const SignUp = () => {
           </div>
           <div className="flex justify-center items-center mt-7">
             <button className="bg-sub px-10 py-3 rounded-xl" type="submit">
-              Registration
+            {loading ? <Loader width="w-4" height="h-4" /> : "SUBMIT"}
             </button>
           </div>
           {}
