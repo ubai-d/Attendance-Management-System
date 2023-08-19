@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
-
-import { Field, useFormik } from "formik";
+import { Toaster, toast } from "react-hot-toast";
+import { useFormik } from "formik";
 import { signUpSchema } from "@/lib/schemas/form";
 
 const SignUp = () => {
@@ -10,31 +10,43 @@ const SignUp = () => {
     email: "",
     password: "",
     confirm_password: "",
-    occupation:""
+    role: "",
   };
   const [checked, setchecked] = useState(true);
+  const [role, setrole] = useState("Student");
+  const [error, seterror] = useState("User With This Email Already exist");
+
   const { values, handleBlur, handleChange, handleSubmit, errors, touched } =
     useFormik({
       initialValues,
       validationSchema: signUpSchema,
       validateOnChange: true,
       validateOnBlur: false,
-      //// By disabling validation onChange and onBlur formik will validate on submit.
-      onSubmit: async (values, action) => {
-        console.log("🚀 ~ file: App.jsx ~ line 17 ~ App ~ values", values);
-        console.log("🚀 ~ file: App.jsx ~ line 17 ~ App ~ values", values.occupation);
 
-        const res = await fetch("/api/v1/signup", {
-          method: "POST",
-          body: JSON.stringify({
-            name: values.name,
-            email: values.email,
-            password: values.password,
-            // occupation : values.
-          }),
-        });
-        //// to get rid of all the values after submitting the form
-        action.resetForm();
+      onSubmit: async (values, action) => {
+        try {
+          const response = await fetch("/api/v1/signup", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              name: values.name,
+              email: values.email,
+              password: values.password,
+              role: role,
+            }),
+          });
+          const data = await response.json();
+          if (data.status === "error") {
+            throw new Error(data.message);
+          }
+          action.resetForm();
+        } catch (err: any) {
+        toast.error(error,{
+        duration: 4000,
+        })
+      }
       },
     });
 
@@ -118,58 +130,49 @@ const SignUp = () => {
           <div className="flex items-center justify-between mx-60 mt-3">
             <label htmlFor="" className="">
               <input
-              checked={!checked}
-              autoComplete="off"
+                autoComplete="off"
                 type="radio"
                 id="teacher"
                 name="teacher"
                 className="cursor-pointer text-sub"
-                onClick={() => setchecked(!checked)}
-                value={values.occupation}
+                onClick={() => {
+                  setchecked(!checked);
+                  setrole("Teacher");
+                }}
+                value={values.role}
+                checked={!checked}
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
+
               <span> Teacher </span>
             </label>
             <label className="text-lg text-sub">
               <input
-              checked={checked}
-              autoComplete="off"
-                  type="radio"
-                  id="student"
-                  name="student"
-                  className="w-4 h-4 cursor-pointer text-sub"
-                  onClick={() => setchecked(!checked)}
-                  value={values.occupation}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
+                autoComplete="off"
+                type="radio"
+                id="student"
+                name="Student"
+                className="w-4 h-4 cursor-pointer text-sub"
+                onClick={() => {
+                  setchecked(!checked);
+                  setrole("Student");
+                }}
+                value={values.role}
+                checked={checked}
+                onChange={handleChange}
+                onBlur={handleBlur}
               />
+
               <span className="mx-2">Student</span>
-             
             </label>
-            {/* <div role="group" aria-labelledby="checkbox-group">
-            <label>
-              <Field type="checkbox" name="checked" value="One" />
-              One
-            </label>
-            <label>
-              <Field type="checkbox" name="checked" value="Two" />
-              Two
-            </label>
-            <label>
-              <Field type="checkbox" name="checked" value="Three" />
-              Three
-            </label> */}
-          {/* </div> */}
-
-
           </div>
-          <p className="text-red-400 px-3 text-center">Please Confirm Your Password</p>
-          <div className="flex justify-center items-center mt-2">
+          <div className="flex justify-center items-center mt-7">
             <button className="bg-sub px-10 py-3 rounded-xl" type="submit">
               Registration
             </button>
           </div>
+          {}
         </form>
       </div>
     </>
