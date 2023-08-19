@@ -1,7 +1,7 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import { Roboto } from "next/font/google";
-
+import { Toaster, toast } from 'react-hot-toast';
 const roboto = Roboto({
   weight: ["300", "400", "700", "900"],
   subsets: ["latin"],
@@ -22,7 +22,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={roboto.className}>{children}</body>
+      <body className={roboto.className}>{children}
+      <Toaster/>
+      </body>
     </html>
   )
 }

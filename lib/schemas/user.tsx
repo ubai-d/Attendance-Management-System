@@ -14,6 +14,7 @@ export const Users = pgTable('users', {
     email: text('email').notNull(),
     password: text('password').notNull(),
     created_at: timestamp('created_at').defaultNow().notNull(),
+    role:text('role').notNull(),
 });
 
 export type User = InferModel<typeof Users>;
