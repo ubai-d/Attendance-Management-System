@@ -14,7 +14,7 @@ const SignUp = () => {
   };
   const [checked, setchecked] = useState(true);
   const [role, setrole] = useState("Student");
-  const [error, seterror] = useState("");
+  const [error, seterror] = useState("User With This Email Already exist");
 
   const { values, handleBlur, handleChange, handleSubmit, errors, touched } =
     useFormik({
@@ -43,8 +43,10 @@ const SignUp = () => {
           }
           action.resetForm();
         } catch (err: any) {
-          seterror(err);
-        }
+        toast.error(error,{
+        duration: 4000,
+        })
+      }
       },
     });
 
