@@ -17,35 +17,41 @@ export async function POST(request: NextRequest) {
     if (!data.name) {
       throw new Error("Full Name is required");
     }
+    if (!data.role) {
+      throw new Error("Role is required");
+    }
     const encryppass = await bcrypt.hash(data.password, 10);
     const Matchedusers = await db
       .select()
       .from(Users)
       .where(eq(Users.email, data.email));
     console.log(Matchedusers);
-      
-    if(Matchedusers.length){
-      throw new Error("User Already Exist")
+
+    if (Matchedusers.length) {
+      throw new Error("User with this Email Already Exist");
     }
 
     const newUser: NewUser = {
-        name: data.name,
-        email: data.email,
-        password: encryppass,
-        id: uuidv4(),
-        created_at: new Date()
-    }
+      name: data.name,
+      email: data.email,
+      password: encryppass,
+      id: uuidv4(),
+      created_at: new Date(),
+      role:data.role
+    };
 
-    await db.insert(Users).values(newUser)
+    await db.insert(Users).values(newUser);
 
-    return NextResponse.json({ message: 'User registered successfully', status: "success" }, { status: 200 })
-}catch (err: any) {
     return NextResponse.json(
-      { message: err.message, status: "error" },
+      { message: "User registered successfully", status: "success" },
+      { status: 200 }
     );
+  } catch (err: any) {
+    console.log((err as {messsage:string}).messsage);
+    return NextResponse.json({ message: err.message, status: "error" });
   }
 }
 
-export async function GET(request: NextRequest) {
-  return NextResponse.json({ message: "hello" });
-}
+// export async function GET(request: NextRequest) {
+//   return NextResponse.json({ message: "hello" });
+// }
