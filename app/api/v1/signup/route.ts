@@ -25,8 +25,6 @@ export async function POST(request: NextRequest) {
       .select()
       .from(Users)
       .where(eq(Users.email, data.email));
-    console.log(Matchedusers);
-
     if (Matchedusers.length) {
       throw new Error("User with this Email Already Exist");
     }
@@ -37,7 +35,7 @@ export async function POST(request: NextRequest) {
       password: encryppass,
       id: uuidv4(),
       created_at: new Date(),
-      role:data.role
+      role: data.role,
     };
 
     await db.insert(Users).values(newUser);
@@ -47,11 +45,7 @@ export async function POST(request: NextRequest) {
       { status: 200 }
     );
   } catch (err: any) {
-    console.log((err as {messsage:string}).messsage);
+    console.log((err as { messsage: string }).messsage);
     return NextResponse.json({ message: err.message, status: "error" });
   }
 }
-
-// export async function GET(request: NextRequest) {
-//   return NextResponse.json({ message: "hello" });
-// }
