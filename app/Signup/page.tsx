@@ -4,7 +4,9 @@ import { toast } from "react-hot-toast";
 import { useFormik } from "formik";
 import { signUpSchema } from "@/lib/schemas/signup";
 import Loader from "@/components/loader";
+import { useRouter } from "next/navigation";
 const SignUp = () => {
+  const router = useRouter();
   const initialValues = {
     name: "",
     email: "",
@@ -48,6 +50,7 @@ const SignUp = () => {
           });
           action.resetForm();
           setloading(false);
+          router.push('/')
         } catch (err: any) {
           toast.error(error, {
             duration: 4000,
