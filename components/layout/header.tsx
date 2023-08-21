@@ -26,16 +26,18 @@ function Header() {
             </li>
             <li className="cursor-pointer mx-5">
               <Link href={"/"} />
-             FAQ
+              FAQ
             </li>
           </ul>
         </div>
         <div className="flex">
           <div className="px-5 py-2">
+            <Link href={"/login"}>
             <button>Login</button>
+            </Link>
           </div>
           <div className="text-main bg-sub rounded-full px-5 py-2">
-            <Link href={"/Signup"}>
+            <Link href={"/signup"}>
               <button>Register</button>
             </Link>
           </div>
@@ -71,17 +73,19 @@ function Header() {
         <div className="bg-main h-screen w-full md:hidden flex flex-col">
           <div>
             <ul className="flex flex-col text-white my-40 mx-5 text-xl">
-            <div className="flex mx-auto my-10">
-          <div className="px-5 py-2 text-white">
-            <button>Login</button>
-          </div>
-          <div className="text-main bg-sub rounded-full px-5 py-2">
-            <Link href={"/Signup"}>
-              <button>Register</button>
-            </Link>
-          </div>
-        </div>
-            <Link
+              <div className="flex mx-auto my-10">
+                <div className="px-5 py-2 text-white">
+                  <link href="/login">
+                  <button>Login</button>
+                  </link>
+                </div>
+                <div className="text-main bg-sub rounded-full px-5 py-2">
+                  <Link href={"/signup"}>
+                    <button>Register</button>
+                  </Link>
+                </div>
+              </div>
+              <Link
                 href={"/"}
                 onClick={() => {
                   setopen(!open);
@@ -106,12 +110,10 @@ function Header() {
                 }}
                 className="cursor-pointer mx-5 py-5 border-b border-sub"
               >
-               FAQ
+                FAQ
               </Link>
             </ul>
-          
           </div>
-          
         </div>
       ) : (
         ""
