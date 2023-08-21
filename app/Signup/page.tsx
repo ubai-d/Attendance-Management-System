@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { toast } from "react-hot-toast";
 import { useFormik } from "formik";
-import { signUpSchema } from "@/lib/schemas/form";
+import { signUpSchema } from "@/lib/schemas/signup";
 import Loader from "@/components/loader";
 const SignUp = () => {
   const initialValues = {
