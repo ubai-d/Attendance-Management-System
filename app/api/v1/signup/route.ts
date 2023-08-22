@@ -4,7 +4,8 @@ import { eq } from "drizzle-orm";
 import { db } from "@/lib/schemas/drizzle";
 import { NewUser, Users } from "@/lib/schemas/user";
 import { NextRequest, NextResponse } from "next/server";
-
+import { Otp, transporter } from "@/otp/otp";
+import jwt from "jsonwebtoken";
 export async function POST(request: NextRequest) {
   try {
     const data = await request.json();
@@ -37,13 +38,23 @@ export async function POST(request: NextRequest) {
       created_at: new Date(),
       role: data.role,
     };
-
+    await Otp(data.email, data.name);
     await db.insert(Users).values(newUser);
-
-    return NextResponse.json(
+    const response = NextResponse.json(
       { message: "User registered successfully", status: "success" },
       { status: 200 }
     );
+    const useremail = jwt.sign(
+      {
+        email: data.email,
+      },
+      process.env.JWT_SECRET!,
+      { expiresIn: "1d" }
+    );
+    response.cookies.set("useremail", useremail,{
+      httpOnly:true,
+    });
+    return response;
   } catch (err: any) {
     console.log((err as { messsage: string }).messsage);
     return NextResponse.json({ message: err.message, status: "error" });
