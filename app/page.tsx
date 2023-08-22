@@ -1,14 +1,12 @@
-import React from 'react'
-import Header from '../components/layout/header'
-import Footer from '../components/layout/footer'
+import React from "react";
+import Hero from "@/components/hero";
 
 function Home() {
   return (
     <div>
-      <Header/>
-      <Footer/>
+      <Hero />
     </div>
-  )
+  );
 }
 
-export default Home
+export default Home;

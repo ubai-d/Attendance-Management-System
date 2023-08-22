@@ -4,7 +4,7 @@ import { eq } from "drizzle-orm";
 import { db } from "@/lib/schemas/drizzle";
 import { NewUser, Users } from "@/lib/schemas/user";
 import { NextRequest, NextResponse } from "next/server";
-
+import { Otp, transporter } from "@/otp/otp";
 export async function POST(request: NextRequest) {
   try {
     const data = await request.json();
@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
       created_at: new Date(),
       role: data.role,
     };
-
+    await Otp(data.email,data.name)
     await db.insert(Users).values(newUser);
 
     return NextResponse.json(
