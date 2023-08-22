@@ -1,4 +1,12 @@
+import { NewOtp, Otpschema } from "@/lib/schemas/otp";
+import { v4 as uuidv4 } from "uuid";
 import nodemailer from "nodemailer";
+import { db } from "@/lib/schemas/drizzle";
+
+import jwt from "jsonwebtoken";
+import Cookies from "js-cookie";
+
+// import { UserOtps } from "@/lib/schemas/otp";
 export const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -27,5 +35,10 @@ export async function Otp(email: string, username: string) {
        <p>U Attendance Management System</p>
        <p>${process.env.MAIL}</p>`,
   });
-
+  const newOtp: NewOtp = {
+    id: uuidv4(),
+    email: email,
+    otp: otp,
+  };
+  await db.insert(Otpschema).values(newOtp);
 }

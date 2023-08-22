@@ -50,7 +50,7 @@ const SignUp = () => {
           });
           action.resetForm();
           setloading(false);
-          router.push('/')
+          // router.push('/')
         } catch (err: any) {
           toast.error(error, {
             duration: 4000,
