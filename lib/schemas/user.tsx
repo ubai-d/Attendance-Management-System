@@ -15,6 +15,7 @@ export const Users = pgTable('users', {
     password: text('password').notNull(),
     created_at: timestamp('created_at').defaultNow().notNull(),
     role:text('role').notNull(),
+    verified:boolean('verified').notNull()
 });
 
 export type User = InferModel<typeof Users>;
