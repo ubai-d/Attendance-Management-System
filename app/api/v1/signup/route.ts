@@ -4,7 +4,7 @@ import { eq } from "drizzle-orm";
 import { db } from "@/lib/schemas/drizzle";
 import { NewUser, Users } from "@/lib/schemas/user";
 import { NextRequest, NextResponse } from "next/server";
-import { Otp, transporter } from "@/otp/otp";
+import { Otp } from "@/otp/otp";
 import jwt from "jsonwebtoken";
 export async function POST(request: NextRequest) {
   try {
@@ -37,6 +37,7 @@ export async function POST(request: NextRequest) {
       id: uuidv4(),
       created_at: new Date(),
       role: data.role,
+      verified:false,
     };
     await Otp(data.email, data.name);
     await db.insert(Users).values(newUser);
