@@ -1,13 +1,14 @@
-import React from "react";
-import Hero from "@/components/hero";
-import Otp from "./Otp/page";
+import React from 'react'
+import Header from '../components/layout/header'
+import Footer from '../components/layout/footer'
 
 function Home() {
   return (
     <div>
-      <Hero />
+      <Header/>
+      <Footer/>
     </div>
-  );
+  )
 }
 
-export default Home;
+export default Home
