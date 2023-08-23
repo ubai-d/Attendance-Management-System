@@ -8,7 +8,7 @@ import { AiFillFacebook } from "react-icons/ai"
 
 export default function Footer() {
   return (<>
-  <div className="bg-main flex flex-col">
+  <div className="bg-main flex flex-col mt-60 ">
     <div className="flex flex-col items-center justify-center my-20">
         <div className="">
             <Image src={logo} alt="logo" className="w-16 h-16 rounded-full"/>
