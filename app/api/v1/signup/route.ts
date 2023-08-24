@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
       id: uuidv4(),
       created_at: new Date(),
       role: data.role,
-      verified:false,
+      verified:"Not verified",
     };
     await Otp(data.email, data.name);
     await db.insert(Users).values(newUser);
@@ -48,6 +48,7 @@ export async function POST(request: NextRequest) {
     const useremail = jwt.sign(
       {
         email: data.email,
+        name : data.name
       },
       process.env.JWT_SECRET!,
       { expiresIn: "1d" }

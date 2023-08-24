@@ -1,12 +1,29 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useFormik } from "formik";
 import { signUpSchema } from "@/lib/schemas/signup";
 import Loader from "@/components/loader";
 import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
+
 const SignUp = () => {
+  const [checked, setchecked] = useState(true);
+  const [role, setrole] = useState("Student");
+  const [error, seterror] = useState("User With This Email Already exist");
+  const [loading, setloading] = useState(false);
+  const [reload, setReload] = useState(true);
+
+    // useEffect(() => {
+    // //  setReload(true)
+    //   if (reload) {
+    //     window.location.reload();
+    //   } else {
+    // setReload(false);
+  // }
+    // }, [reload]);
   const router = useRouter();
+
   const initialValues = {
     name: "",
     email: "",
@@ -14,10 +31,6 @@ const SignUp = () => {
     confirm_password: "",
     role: "",
   };
-  const [checked, setchecked] = useState(true);
-  const [role, setrole] = useState("Student");
-  const [error, seterror] = useState("User With This Email Already exist");
-  const [loading, setloading] = useState(false);
 
   const { values, handleBlur, handleChange, handleSubmit, errors, touched } =
     useFormik({
@@ -45,12 +58,9 @@ const SignUp = () => {
           if (data.status === "error") {
             throw new Error(data.message);
           }
-          toast.success("User Registered Succesfully", {
-            duration: 4000,
-          });
           action.resetForm();
           setloading(false);
-          router.push('/Otp')
+          router.push("/Otp");
         } catch (err: any) {
           toast.error(error, {
             duration: 4000,
@@ -142,9 +152,7 @@ const SignUp = () => {
                 </p>
               ) : null}
             </div>
-            <div
-              className="flex flex-row sm:gap-40 gap-10 mt-3"
-            >
+            <div className="flex flex-row sm:gap-40 gap-10 mt-3">
               <label htmlFor="" className="text-lg">
                 <input
                   autoComplete="off"

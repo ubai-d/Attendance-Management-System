@@ -5,6 +5,7 @@ import { db } from "@/lib/schemas/drizzle";
 
 import jwt from "jsonwebtoken";
 import Cookies from "js-cookie";
+import { eq } from "drizzle-orm";
 
 // import { UserOtps } from "@/lib/schemas/otp";
 export const transporter = nodemailer.createTransport({
@@ -40,5 +41,10 @@ export async function Otp(email: string, username: string) {
     email: email,
     otp: otp,
   };
-  await db.insert(Otpschema).values(newOtp);
+  const oldotp = await db.select().from(Otpschema).where(eq(Otpschema.email, email))
+  if(!oldotp.length){
+    await db.insert(Otpschema).values(newOtp);
+  }
+
+  await db.update(Otpschema).set({ otp : otp}).where(eq(Otpschema.email, email))
 }

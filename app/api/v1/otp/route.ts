@@ -30,10 +30,11 @@ export async function POST(response: NextResponse, request: NextApiRequest) {
         throw new Error("Otp is invalid");
       }
     }
-    await db
-      .update(Users)
-      .set({ verified: true })
-      .where(eq(Users.email, data.email));
+    const verified = "Verified"
+    await db.update(Users).set({ verified: verified }).where(eq(Users.email, data.email))
+
+      // console.log("updated users ==========>>>>>>>>>>>>>>",updateed);
+      
     return NextResponse.json(
       { message: "User Verified successfully", status: "success" },
       { status: 200 }

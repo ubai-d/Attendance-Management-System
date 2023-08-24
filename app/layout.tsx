@@ -16,17 +16,11 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: any }) {
   return (
     <html lang="en">
       <body>
-        {!["login", "signup"].includes(
-          (children as React.ReactElement)?.props?.childProp?.segment
-        ) ? (
+        {!["signup","login","Otp"].includes(children.props?.childProp?.segment) ? (
           <div className="flex flex-col">
             <Header />
             {children}
